@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Icon{% endblock %}
+
+{% block body %}
+    <h1>Icon</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ icon.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ icon.name }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ icon.slug }}</td>
+            </tr>
+            <tr>
+                <th>Svg</th>
+                <td>{{ icon.svg }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ icon.createdAt ? icon.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ icon.updatedAt ? icon.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_icon_index') }}">back to list</a>
+
+    <a href="{{ path('app_icon_edit', {'id': icon.id}) }}">edit</a>
+
+    {{ include('icon/_delete_form.html.twig') }}
+{% endblock %}

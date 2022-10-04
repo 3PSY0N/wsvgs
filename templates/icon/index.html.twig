@@ -1,0 +1,95 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Icon{% endblock %}
+
+{% block body %}
+<main class="pt-24 px-2 2xl:px-0">
+    <div class="px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto">
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Category {{ title }}</h1>
+                <p class="mt-2 text-sm text-gray-700 dark:text-gray-400">Icons in the {{ title }} category.</p>
+            </div>
+            <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                <a href="{{ path('app_icon_new') }}" type="button"
+                        class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium
+                         text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+                >
+                    Create new
+                </a>
+            </div>
+        </div>
+        <div class="mt-8 flex flex-col">
+            <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle">
+                    <div class="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
+                        <table class="min-w-full divide-y divide-gray-300 dark:divide-slate-700">
+                            <thead class="bg-gray-50 dark:bg-slate-700/70">
+                            <tr class="[&>*]:px-3 [&>*]:py-3.5 [&>*]:text-left [&>*]:text-sm [&>*]:font-semibold [&>*]:text-gray-900 [&>*]:dark:text-slate-300">
+                                <th scope="col" class="!text-center">#ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Slug</th>
+                                <th scope="col">SVG</th>
+                                <th scope="col">Categories</th>
+                                <th scope="col">Created</th>
+                                <th scope="col">Updated</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-slate-50 dark:bg-slate-800 dark:divide-slate-600">
+                            {% for icon in icons %}
+                            <tr class="
+                            hover:bg-slate-300/50 dark:hover:bg-slate-700/70 transition even:bg-slate-200/50 dark:even:bg-slate-900/20
+                            [&>*]:whitespace-nowrap [&>*]:text-sm [&>*]:text-slate-500 [&>*]:dark:text-slate-400 [&>*]:py-2 [&>*]:px-3
+                            ">
+                                <td class="text-center">{{ icon.id }}</td>
+                                <td>{{ icon.name }}</td>
+                                <td>{{ icon.slug }}</td>
+                                <td class="whitespace-nowrap px-3 py-2 group">
+                                    <span class="w-10 flex cursor-zoom-in fill-slate-400 svg {{ icon.categories|svgClass }}"
+                                          data-iconclass="{{ icon.categories|svgClass }}" data-modalpreview="modal-preview">
+                                        {{ icon.svg|cleanSvg|raw }}
+                                    </span>
+                                </td>
+                                <td class="flex">
+                                    <div class="relative flex flex-col items-center group mx-auto">
+                                        <svg width="24" height="24" class="stroke-slate-400 dark:stroke-slate-300" viewBox="0 0 24 24" fill="none">
+                                            <path d="M17.5933 3.32241C18.6939 3.45014 19.5 4.399 19.5 5.50699V21L12 17.25L4.5 21V5.50699C4.5 4.399 5.30608 3.45014 6.40668 3.32241C8.24156 3.10947 10.108 3 12 3C13.892 3 15.7584 3.10947 17.5933 3.32241Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <div class="absolute bottom-0 flex flex-col items-center hidden mb-6 group-hover:flex">
+                                            <div class="relative z-10 p-2 text-xs leading-none text-slate-300 whitespace-no-wrap bg-slate-900 dark:bg-slate-300/90 dark:text-slate-900 shadow-lg flex flex-wrap break-words w-[250px] h-auto rounded-lg">
+                                                |&nbsp;{% for category in icon.categories %}<span>{{ category }} |&nbsp;</span>{% endfor %}
+                                            </div>
+                                            <div class="w-3 h-3 -mt-2 rotate-45 bg-black"></div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>{{ icon.createdAt ? icon.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ icon.updatedAt ? icon.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>
+                                    <a href="{{ path('app_icon_show', {'id': icon.id}) }}" class="text-indigo-600 hover:text-indigo-900">Show</a>
+                                    <a href="{{ path('app_icon_edit', {'id': icon.id}) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                </td>
+                            </tr>
+                            {% else %}
+                                <tr>
+                                    <td class="text-center text-slate-300 text-2xl py-4" colspan="8">No records found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        {{ knp_pagination_render(icons ) }}
+    </div>
+    <div class="fixed h-screen w-screen invisible opacity-0 transition duration-500 top-0 left-0 flex items-center justify-center" id="modal-preview">
+        <div class="modal-exit bg-slate-900/80 absolute w-full h-full cursor-zoom-out"></div>
+    </div>
+</main>
+{% endblock %}
