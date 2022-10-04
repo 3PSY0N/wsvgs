@@ -1,0 +1,24 @@
+meili_search:
+  url: '%env(MEILISEARCH_URL)%'          # URL of the Meilisearch server (mandatory)
+  api_key: '%env(MEILISEARCH_API_KEY)%'  # API key to access the Meilisearch server (mandatory)
+#  doctrineSubscribedEvents: ['postPersist']
+  indices:
+    - name: wsvgs
+      class: App\Entity\Icon
+      enable_serializer_groups: true
+      settings:
+        typoTolerance:
+          enabled: true
+          minWordSizeForTypos:
+            oneTypo: 5
+            twoTypos: 9
+
+#    - name: wsvgs
+#      class: App\Entity\Category
+#      enable_serializer_groups: true
+#      settings:
+#        typoTolerance:
+#          enabled: true
+#          minWordSizeForTypos:
+#            oneTypo: 5
+#            twoTypos: 9
