@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      x-data="{ darkMode: localStorage.getItem('dark') === 'true'}"
+      x-init="$watch('darkMode', val => localStorage.setItem('dark', val))"
+      :class="{ 'dark': darkMode }"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}WSVGs - Web SVGs{% endblock %}</title>
+    <meta name="description" content="Web SVGs is a large free icon library for developers.">
+    <link rel="icon" href="{{ asset('build/images/favicon.svg')}}" type="image/svg+xml">
+
+    {% block stylesheets %}
+        {{ vite_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ vite_entry_script_tags('app') }}
+    {% endblock %}
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+    <body class="transition dark:bg-slate-900 bg-slate-200">
+        {% include '_partials/navbar.html.twig' %}
+        {% block body %}{% endblock %}
+    </body>
+</html>
