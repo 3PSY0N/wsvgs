@@ -1,0 +1,73 @@
+{% extends 'base_public.html.twig' %}
+
+{% block body %}
+    <main class="pt-16">
+
+        <div class="bg-slate-200 dark:bg-slate-900">
+            {% if icons.totalItemCount is defined %}
+                <h1 class="pt-16 text-center text-4xl font-bold text-slate-900 dark:text-slate-200">There are <span class="text-slate-500 dark:text-sky-300">{{ icons.totalItemCount }}</span> icons in the database.</h1>
+                <h2 class="text-center text-slate-900 dark:text-slate-400">Click on icon to copy code</h2>
+            {% endif %}
+
+            {% if searchQuery is defined and searchQuery is not null %}
+                {% if hits|length > 0 %}
+                    <h1 class="pt-16 text-center text-4xl font-bold text-slate-900 dark:text-slate-200">Found <span class="text-slate-500 dark:text-sky-300">{{ hits|length }}</span> icons in <span class="text-slate-500 dark:text-sky-300">{{ searchTime }} ms</span></h1>
+                    <h2 class="text-center text-slate-900 dark:text-slate-400">Click on icon to copy code</h2>
+                {% else %}
+                    <h1 class="pt-16 text-center text-4xl font-bold text-slate-900 dark:text-slate-200">There is no icons for the query &laquo;<span class="text-slate-500 dark:text-sky-300">{{ searchQuery }}</span>&raquo;</h1>
+                    <p class="text-center text-xl text-slate-800 transition duration-300 dark:text-sky-300 hover:text-slate-600 hover:dark:text-sky-200"><a href="{{ path('app_home') }}">Back to Home</a></p>
+                {% endif %}
+            {% endif %}
+
+            <div class="mx-auto max-w-2xl px-4 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+                    {% for icon in icons %}
+                        <div class="relative flex flex-col justify-between rounded-lg bg-slate-100 p-2 py-8 text-center shadow icon group dark:bg-slate-800 dark:ring-1 dark:ring-slate-300/20">
+                            <div data-type="svg" class="svg {{ icon.categories|svgClass }} flex flex-col text-center justify-center self-center w-[64px] h-[64px] cpyBtn cursor-copy" data-clipboard-target="#icon_{{ icon.id }}">
+                                {{ icon.svg|cleanSvg|raw }}
+                            </div>
+
+                            <div class="mt-4 flex flex-col">
+                                <div id="iconName" class="text-center font-semibold text-slate-700 dark:text-slate-300">{{ icon.name|capitalize }}</div>
+                                <div class="mt-1 text-center text-sm font-semibold text-slate-500 dark:text-slate-400">
+                                    {% for category in icon.categories|sort((a, b) => a.name <=> b.name) %}
+                                        <span class="rounded bg-slate-300 px-2 text-slate-600 dark:bg-sky-300 dark:text-slate-900">{{ category.name }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="mt-2 flex justify-center gap-2">
+                                    <input type="hidden" id="icon_{{ icon.id }}" value="{{ icon.svg }}">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for icon in hits %}
+                        <div class="relative flex flex-col justify-between rounded-lg bg-slate-100 p-2 py-8 text-center shadow icon group dark:bg-slate-800 dark:ring-1 dark:ring-slate-300/20">
+                            <div data-type="svg" class="svg {{ icon.categories|svgClass }} flex flex-col text-center justify-center self-center w-[64px] h-[64px] cpyBtn cursor-copy" data-clipboard-target="#icon_{{ icon.id }}">
+                                {{ icon.svg|cleanSvg|raw }}
+                            </div>
+
+                            <div class="mt-4 flex flex-col">
+                                <div id="iconName" class="text-center font-semibold text-slate-700 dark:text-slate-300">{{ icon.name|capitalize }}</div>
+                                <div class="mt-1 text-center text-sm font-semibold text-slate-500 dark:text-slate-400">
+                                    {% for category in icon.categories|sort((a, b) => a.name <=> b.name) %}
+                                        <span class="rounded bg-slate-300 px-2 text-slate-600 dark:bg-sky-300 dark:text-slate-900">{{ category.name }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="mt-2 flex justify-center gap-2">
+                                    <input type="hidden" id="icon_{{ icon.id }}" value="{{ icon.svg }}">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-8">
+                    {% if icons is not null %}
+                        {{ knp_pagination_render(icons) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
