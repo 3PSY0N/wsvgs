@@ -1,3 +1,6 @@
+/.tailwindorder
+/.idea
+/.vite
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -17,6 +20,8 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-/.tailwindorder
-/.idea
-/.vite
+
+###> pentatrion/vite-bundle ###
+/node_modules/
+/public/build/
+###< pentatrion/vite-bundle ###
