@@ -38,7 +38,7 @@ class BatchImportCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('category', InputArgument::REQUIRED, 'The category for the icons (separed by , coma)');
+            ->addArgument('category', InputArgument::REQUIRED, 'The category for the icons (separated by , coma)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -118,8 +118,8 @@ class BatchImportCommand extends Command
 
             /**
              * For each category entered on the terminal, we check if the category already exists.
-             * If the category exists, it is added to the icon.
-             * If not, we create a new category and add it to the icon.
+             * If the category exists, it is added to the Icon::class.
+             * If not, we create a new category and add it to the Icon::class.
              */
             foreach ($inputCategoriesArray as $inputCategory) {
                 $existingCategory = $categories->findOneBy(['name' => $inputCategory]);
